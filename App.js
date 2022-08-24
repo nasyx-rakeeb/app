@@ -1,13 +1,19 @@
 import {StatusBar} from 'expo-status-bar'
-import {StyleSheet, View, SafeAreaView, Text} from 'react-native'
+import {StyleSheet, View, Text} from 'react-native'
 import {Welcome, Signin, Signup, ForgotPwdNext, ForgotPwd, Logout, VerifyPhone, ChangePwd} from "./screens/auth/IE.js"
+import {NavigationContainer} from '@react-navigation/native'
+import {createNativeStackNavigator} from '@react-navigation/native-stack'
+
+const Stack = createNativeStackNavigator()
 
 const App = () => {
   return (
-    <SafeAreaView style={styles.root}>
-        <StatusBar style="auto" />
-        <Welcome />
-    </SafeAreaView>
+    <NavigationContainer style={styles.root}>
+      <StatusBar style="auto" />
+      <Stack.Navigator>
+        <Stack.Screen name="Welcome" component={Welcome} />
+      </Stack.Navigator>
+    </NavigationContainer>
   )
 }
 
