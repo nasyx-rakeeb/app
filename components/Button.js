@@ -12,12 +12,17 @@ const Button = ({title, onPress, bgColor, txtColor}) => {
 
 const styles = StyleSheet.create({
   root: {
-    flex: 1,
     width: "80%",
-    height: 20,
+    height: 40,
+    borderRadius: 8,
+    justifyContent: "center",
+    marginBottom: 10
   },
   btnTxt: {
-    textAlign: "center"
+    textAlign: "center",
+    fontSize: 21,
+    fontWeight: "bold",
+    letterSpacing: 1.5
   }
 })
 
