@@ -17,6 +17,8 @@ const App = () => {
            <Stack.Screen name="Verify Phone Number" component={VerifyPhone} />
            <Stack.Screen name="Logged Out" component={LoggedOut} />
            <Stack.Screen name="Change Password" component={ChangePwd} />
+           <Stack.Screen name="Forgot Password" component={ForgotPwd} />
+           <Stack.Screen name="Check Your Inbox" component={ForgotPwdNext} />
       </Stack.Navigator>
     </NavigationContainer>
   )

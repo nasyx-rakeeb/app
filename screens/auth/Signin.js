@@ -1,4 +1,4 @@
-import  {View, StyleSheet, Text, TextInput, Image} from "react-native"
+import  {View, Platform, KeyboardAvoidingView, StyleSheet, Text, TextInput, Image} from "react-native"
 import Button from "../../components/Button.js"
 import TxtBtn from "../../components/txtBtn.js"
 
@@ -8,14 +8,14 @@ const Signin = ({navigation}) => {
   }
   const handleForgotPwd = () => {
     console.log(6)
-    navigation.navigate("Change Password")
+    navigation.navigate("Check Your Inbox")
   }
   const handleSignup = () => {
     navigation.navigate("Signup")
   }
   
   return (
-    <View style={styles.root}>
+    <KeyboardAvoidingView behavior={Platform.OS === "android" ? "padding" : "height"} style={styles.root}>
       <View style={styles.top}>
         <View style={styles.imgContainer}>
           <Image style={styles.img} source={require("../../assets/images/login.png")} />
@@ -32,7 +32,7 @@ const Signin = ({navigation}) => {
         </View>
         </View>
       </View>
-    </View>
+    </KeyboardAvoidingView>
     )
 }
 

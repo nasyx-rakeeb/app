@@ -8,7 +8,7 @@ const LoggedOut = ({navigation}) => {
   
   return (
     <View style={styles.root}>
-        <Image style={styles.img} source={require("../../assets/images/loggedOut.png")} />
+      <Image style={styles.img} source={require("../../assets/images/loggedOut.png")} />
       <Text style={styles.txt}>Logged Out Successfully</Text>
       <Button title="Take Me Home" onPress={handleHome} bgColor="#5A6E7F" txtColor="white" />
     </View>
