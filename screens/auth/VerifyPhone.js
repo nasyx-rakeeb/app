@@ -1,9 +1,25 @@
 import  {View, StyleSheet, Text, TextInput, Image} from "react-native"
 import Button from "../../components/Button.js"
+import {useState} from "react"
+import axios from "axios"
 
-const VerifyPhone = () => {
-  const handleVerify = () => {
-    console.log(5)
+const VerifyPhone = ({route, navigation}) => {
+  const {email, number, password} = route.params
+  const [otp, setOtp] = useState('')
+  const [errorMsg, setErrorMsg] = useState('')
+  const url = 'https://prikshaprep.herokuapp.com/api/auth/verify-mobile'
+  
+  const handleVerify = async () => {
+    try {
+      const res = await axios.post(url, {email, number, password, otp}, {headers: {"Content-Type": "application/json"}})
+      JSON.stringify(res.data.message)
+      setErrorMsg(res.data.message)
+      if (res.data.status === "success") {
+        navigation.navigate("Home")
+      }
+    } catch (error) {
+      setErrorMsg(error.response.data.message)
+    }
   }
   
   return (
@@ -14,8 +30,8 @@ const VerifyPhone = () => {
         </View>
       </View>
       <View style={styles.bottom}> 
-        <Text style={styles.txt}>An OTP has been sent to your phone number, please check your inbox</Text>
-        <TextInput keyboardType="numeric" style={styles.input} placeholder="Enter OTP here" placeholderTextColor="#D268CC" />
+        {errorMsg ? <Text style={styles.errMsg}>{errorMsg}</Text> : <Text style={styles.txt}>An OTP has been sent to your phone number, please check your inbox</Text>}
+        <TextInput onChangeText={value => setOtp(value)} keyboardType="numeric" style={styles.input} placeholder="Enter OTP here" placeholderTextColor="#D268CC" />
         <View style={styles.btn}>
           <Button title="Verify" onPress={handleVerify} bgColor="#2A454E" txtColor="white" />
         </View>
@@ -69,6 +85,12 @@ const styles = StyleSheet.create({
     letterSpacing: 2,
     lineHeight: 27,
     marginVertical: 12
+  },
+  errMsg: {
+    color: "red",
+    marginVertical: 8,
+    textAlign: "center",
+    marginHorizontal: 30,
   }
 })
 

@@ -7,7 +7,6 @@ const Signin = ({navigation}) => {
     console.log(5)
   }
   const handleForgotPwd = () => {
-    console.log(6)
     navigation.navigate("Check Your Inbox")
   }
   const handleSignup = () => {

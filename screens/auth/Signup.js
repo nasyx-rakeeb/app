@@ -1,12 +1,29 @@
-import  {View, Platform, StyleSheet, Text, TextInput, Image, KeyboardAvoidingView} from "react-native"
+import  {View, Platform, StyleSheet, Alert, Text, TextInput, Image, KeyboardAvoidingView} from "react-native"
 import Button from "../../components/Button.js"
 import TxtBtn from "../../components/txtBtn.js"
 import axios from "axios"
+import {useState} from "react"
 
 const Signup = ({navigation}) => {
-  const handleSignUp = () => {
-    console.log(5)
-  }
+    const [email, setEmail] = useState('')
+    const [number, setNumber] = useState('')
+    const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
+    const [errorMsg, setErrorMsg] = useState('')
+    const url = 'https://prikshaprep.herokuapp.com/api/auth/signup'
+    
+    const handleSignUp = async () => {
+      try {
+          const res = await axios.post(url, {email, number, password, confirmPassword}, {headers: {"Content-Type": "application/json"}})
+          JSON.stringify(res.data.message)
+          setErrorMsg(res.data.message)
+          if (res.data.status === "success") {
+            navigation.navigate("Verify Phone Number", {email, number, password})
+          }
+      } catch (error) {
+        setErrorMsg(error.response.data.message)
+    }}
+    
   const handleSignIn = () => {
     navigation.navigate("Signin")
   }
@@ -19,10 +36,11 @@ const Signup = ({navigation}) => {
         </View>
       </View>
       <View style={styles.bottom}>
-        <TextInput style={styles.input} placeholder="Email" placeholderTextColor="#26DEC0" />
-        <TextInput style={styles.input} placeholder="Phone No with + and country code" placeholderTextColor="#26DEC0" />
-        <TextInput style={styles.input} placeholder="Password" placeholderTextColor="#26DEC0" />
-        <TextInput style={styles.input} placeholder="Confirm Password" placeholderTextColor="#26DEC0" />
+        {errorMsg && <Text style={styles.errMsg}>{errorMsg}</Text>}
+        <TextInput onChangeText={value => setEmail(value)} style={styles.input} placeholder="Email" placeholderTextColor="#26DEC0" />
+        <TextInput onChangeText={value => setNumber(value)} style={styles.input} placeholder="Phone No with + and country code" placeholderTextColor="#26DEC0" />
+        <TextInput onChangeText={value => setPassword(value)} style={styles.input} placeholder="Password" placeholderTextColor="#26DEC0" />
+        <TextInput onChangeText={value => setConfirmPassword(value)} style={styles.input} placeholder="Confirm Password" placeholderTextColor="#26DEC0" />
         <View style={styles.btn}>
           <Button title="Sign Up" onPress={handleSignUp} bgColor="#35474F" txtColor="white" />
         </View>
@@ -67,6 +85,12 @@ const styles = StyleSheet.create({
     padding: 8,
     paddingLeft: 15,
     fontWeight: "bold"
+  },
+  errMsg: {
+    color: "red",
+    marginVertical: 8,
+    textAlign: "center",
+    marginHorizontal: 30,
   }
 })
 

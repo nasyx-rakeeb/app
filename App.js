@@ -3,6 +3,7 @@ import {StyleSheet, View, Text} from 'react-native'
 import {Welcome, Signin, Signup, ForgotPwdNext, ForgotPwd, LoggedOut, VerifyPhone, ChangePwd} from "./screens/auth/IE.js"
 import {NavigationContainer} from '@react-navigation/native'
 import {createNativeStackNavigator} from '@react-navigation/native-stack'
+import Home from "./screens/Home.js"
 
 const Stack = createNativeStackNavigator()
 
@@ -19,6 +20,7 @@ const App = () => {
            <Stack.Screen name="Change Password" component={ChangePwd} />
            <Stack.Screen name="Forgot Password" component={ForgotPwd} />
            <Stack.Screen name="Check Your Inbox" component={ForgotPwdNext} />
+           <Stack.Screen name="Home" component={Home} />
       </Stack.Navigator>
     </NavigationContainer>
   )
