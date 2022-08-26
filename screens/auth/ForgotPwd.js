@@ -14,6 +14,7 @@ const ForgotPwd = () => {
         </View>
       </View>
       <View style={styles.bottom}>
+        <Text style={styles.txt}>Enter your registered email address to receive a password reset link</Text>
         <TextInput style={styles.input} placeholder="Enter your Email" placeholderTextColor="#2A454E" />
         <View style={styles.btn}>
           <Button title="Submit" onPress={handleSubmit} bgColor="#2A454E" txtColor="white" />
@@ -59,6 +60,15 @@ const styles = StyleSheet.create({
     padding: 8,
     paddingLeft: 15,
     fontWeight: "bold"
+  },
+  txt: {
+    textAlign: "center",
+    fontSize: 20,
+    letterSpacing: 2,
+    marginVertical: 9,
+    marginHorizontal: 30,
+    color: "#2A454E",
+    lineHeight: 30
   }
 })
 

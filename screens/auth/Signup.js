@@ -1,6 +1,7 @@
 import  {View, Platform, StyleSheet, Text, TextInput, Image, KeyboardAvoidingView} from "react-native"
 import Button from "../../components/Button.js"
 import TxtBtn from "../../components/txtBtn.js"
+import axios from "axios"
 
 const Signup = ({navigation}) => {
   const handleSignUp = () => {

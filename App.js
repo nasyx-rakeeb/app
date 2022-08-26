@@ -11,7 +11,7 @@ const App = () => {
     <NavigationContainer style={styles.root}>
       <StatusBar style="auto" />
       <Stack.Navigator>
-        <Stack.Screen name="Welcome" component={Welcome} />
+           <Stack.Screen name="Welcome" component={Welcome} />
            <Stack.Screen name="Signin" component={Signin} />
            <Stack.Screen name="Signup" component={Signup} /> 
            <Stack.Screen name="Verify Phone Number" component={VerifyPhone} />
