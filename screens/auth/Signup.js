@@ -1,8 +1,10 @@
-import  {View, Platform, StyleSheet, Alert, Text, TextInput, Image, KeyboardAvoidingView} from "react-native"
+import  {View, Platform, Keyboard, StyleSheet, Text, TextInput, Image, KeyboardAvoidingView} from "react-native"
 import Button from "../../components/Button.js"
 import TxtBtn from "../../components/txtBtn.js"
 import axios from "axios"
 import {useState} from "react"
+import Loader from "../../components/Loader.js"
+import DismissKeyboard from "../../components/DismissKeyboard.js"
 
 const Signup = ({navigation}) => {
     const [email, setEmail] = useState('')
@@ -10,18 +12,25 @@ const Signup = ({navigation}) => {
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const [errorMsg, setErrorMsg] = useState('')
+    const [loading, setLoading] = useState(false)
     const url = 'https://prikshaprep.herokuapp.com/api/auth/signup'
     
     const handleSignUp = async () => {
       try {
+          Keyboard.dismiss()
+          setLoading(true)
           const res = await axios.post(url, {email, number, password, confirmPassword}, {headers: {"Content-Type": "application/json"}})
           JSON.stringify(res.data.message)
           setErrorMsg(res.data.message)
           if (res.data.status === "success") {
             navigation.navigate("Verify Phone Number", {email, number, password})
+            setLoading(false)
+          } else if (res.data.status !== "success") {
+            setLoading(false)
           }
       } catch (error) {
         setErrorMsg(error.response.data.message)
+        setLoading(false)
     }}
     
   const handleSignIn = () => {
@@ -29,6 +38,7 @@ const Signup = ({navigation}) => {
   }
   
   return (
+  <DismissKeyboard>
     <KeyboardAvoidingView behavior={Platform.OS === "android" ? "padding" : "height"} style={styles.root}>
       <View style={styles.top}>
         <View style={styles.imgContainer}>
@@ -39,14 +49,15 @@ const Signup = ({navigation}) => {
         {errorMsg && <Text style={styles.errMsg}>{errorMsg}</Text>}
         <TextInput onChangeText={value => setEmail(value)} style={styles.input} placeholder="Email" placeholderTextColor="#26DEC0" />
         <TextInput onChangeText={value => setNumber(value)} style={styles.input} placeholder="Phone No with + and country code" placeholderTextColor="#26DEC0" />
-        <TextInput onChangeText={value => setPassword(value)} style={styles.input} placeholder="Password" placeholderTextColor="#26DEC0" />
-        <TextInput onChangeText={value => setConfirmPassword(value)} style={styles.input} placeholder="Confirm Password" placeholderTextColor="#26DEC0" />
+        <TextInput secureTextEntry={true} onChangeText={value => setPassword(value)} style={styles.input} placeholder="Password" placeholderTextColor="#26DEC0" />
+        <TextInput secureTextEntry={true} onChangeText={value => setConfirmPassword(value)} style={styles.input} placeholder="Confirm Password" placeholderTextColor="#26DEC0" />
         <View style={styles.btn}>
-          <Button title="Sign Up" onPress={handleSignUp} bgColor="#35474F" txtColor="white" />
+          <Button title={loading ? <Loader color="#26DEC0" /> : "Next"} onPress={handleSignUp} bgColor="#35474F" txtColor="white" />
         </View>
         <TxtBtn title="Already have an account? SignIn Instead" txtColor="#35474F" onPress={handleSignIn} />
       </View>
    </KeyboardAvoidingView>
+  </DismissKeyboard>
     )
 }
 

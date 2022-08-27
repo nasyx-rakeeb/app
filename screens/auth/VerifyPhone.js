@@ -2,23 +2,30 @@ import  {View, StyleSheet, Text, TextInput, Image} from "react-native"
 import Button from "../../components/Button.js"
 import {useState} from "react"
 import axios from "axios"
+import Loader from "../../components/Loader.js"
 
 const VerifyPhone = ({route, navigation}) => {
   const {email, number, password} = route.params
   const [otp, setOtp] = useState('')
   const [errorMsg, setErrorMsg] = useState('')
+  const [loading, setLoading] = useState(false)
   const url = 'https://prikshaprep.herokuapp.com/api/auth/verify-mobile'
   
   const handleVerify = async () => {
     try {
+      setLoading(true)
       const res = await axios.post(url, {email, number, password, otp}, {headers: {"Content-Type": "application/json"}})
       JSON.stringify(res.data.message)
       setErrorMsg(res.data.message)
       if (res.data.status === "success") {
         navigation.navigate("Home")
+        setLoading(false)
+      } else if (res.data.status !== "success") {
+          setLoading(false)
       }
     } catch (error) {
       setErrorMsg(error.response.data.message)
+      setLoading(false)
     }
   }
   
@@ -33,7 +40,7 @@ const VerifyPhone = ({route, navigation}) => {
         {errorMsg ? <Text style={styles.errMsg}>{errorMsg}</Text> : <Text style={styles.txt}>An OTP has been sent to your phone number, please check your inbox</Text>}
         <TextInput onChangeText={value => setOtp(value)} keyboardType="numeric" style={styles.input} placeholder="Enter OTP here" placeholderTextColor="#D268CC" />
         <View style={styles.btn}>
-          <Button title="Verify" onPress={handleVerify} bgColor="#2A454E" txtColor="white" />
+          <Button title={loading ? <Loader color="#fff" /> : "Verify"} onPress={handleVerify} bgColor="#2A454E" txtColor="white" />
         </View>
       </View>
     </View>

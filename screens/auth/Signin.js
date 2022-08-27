@@ -1,25 +1,34 @@
-import  {View, Platform, KeyboardAvoidingView, StyleSheet, Text, TextInput, Image} from "react-native"
+import  {View, Keyboard, Platform, KeyboardAvoidingView, StyleSheet, Text, TextInput, Image} from "react-native"
 import Button from "../../components/Button.js"
 import TxtBtn from "../../components/txtBtn.js"
 import axios from "axios"
 import {useState} from "react"
+import Loader from "../../components/Loader.js"
+import DismissKeyboard from "../../components/DismissKeyboard.js"
 
 const Signin = ({navigation}) => {
   const [user, setUser] = useState("")
   const [password, setPassword] = useState("")
   const [errorMsg, setErrorMsg] = useState('')
+  const [loading, setLoading] = useState(false)
   const url = "https://prikshaprep.herokuapp.com/api/auth/signin"
   
   const handleLogIn = async () => {
     try {
+      Keyboard.dismiss()
+      setLoading(true)
       const res = await axios.post(url, {email: user, password}, {headers: {"Content-Type": "application/json"}})
       JSON.stringify(res.data.message)
       if (res.data.status === "success") { 
         navigation.navigate("Home")
+        setLoading(false)
+      } else if (res.data.status !== "success") {
+          setLoading(false)
       }
       setErrorMsg(res.data.message)
     } catch (error) {
       setErrorMsg(error.response.data.message)
+      setLoading(false)
     }
   }
   
@@ -32,6 +41,7 @@ const Signin = ({navigation}) => {
   }
   
   return (
+    <DismissKeyboard>
     <KeyboardAvoidingView behavior={Platform.OS === "android" ? "padding" : "height"} style={styles.root}>
       <View style={styles.top}>
         <View style={styles.imgContainer}>
@@ -41,9 +51,9 @@ const Signin = ({navigation}) => {
       <View style={styles.bottom}>
         {errorMsg && <Text style={styles.errMsg}>{errorMsg}</Text>}
         <TextInput onChangeText={value => setUser(value)} style={styles.input} placeholder="Email or phone number with + and country code" placeholderTextColor="#5549AB" />
-        <TextInput onChangeText={value => setPassword(value)} style={styles.input} placeholder="Enter your password here" placeholderTextColor="#5549AB" />
+        <TextInput secureTextEntry={true} onChangeText={value => setPassword(value)} style={styles.input} placeholder="Enter your password here" placeholderTextColor="#5549AB" />
         <View style={styles.loginBtn}>
-        <Button title="Log In" onPress={handleLogIn} bgColor="#5549AB" txtColor="white" />
+        <Button title={loading ? <Loader color="white" /> : "Next"} onPress={handleLogIn} bgColor="#5549AB" txtColor="white" />
         <View style={styles.otherBtns}>
           <TxtBtn title="Forgot Password" txtColor="#5549AB" onPress={handleForgotPwd} />
           <TxtBtn title="Signup" txtColor="#5549AB" onPress={handleSignup} />
@@ -51,6 +61,7 @@ const Signin = ({navigation}) => {
         </View>
       </View>
     </KeyboardAvoidingView>
+    </DismissKeyboard>
     )
 }
 
