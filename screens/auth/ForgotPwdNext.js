@@ -1,6 +1,9 @@
 import  {View, StyleSheet, Text, Image} from "react-native"
 
-const ForgotPwdNext = () => {
+const ForgotPwdNext = ({route}) => {
+  const {email} = route.params
+  const to = <Text style={[styles.txt, {color: "#00DFC0"}]}>{email}</Text>
+  
   return (
     <View style={styles.root}>
       <View style={styles.top}>
@@ -9,7 +12,7 @@ const ForgotPwdNext = () => {
         </View>
       </View>
       <View style={styles.bottom}>
-        <Text style={styles.txt}>An email with password reset link has been sent to you your email address, please check your inbox and reset your password</Text>
+        <Text style={styles.txt}>An email with password reset link has been sent to {to} please check your inbox and reset your password</Text>
       </View>
     </View>
     )

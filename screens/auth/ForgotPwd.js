@@ -1,9 +1,23 @@
 import  {View, StyleSheet, Text, TextInput, Image} from "react-native"
 import Button from "../../components/Button.js"
+import axios from "axios"
+import {useState} from "react"
 
-const ForgotPwd = () => {
-  const handleSubmit = () => {
-    console.log(5)
+const ForgotPwd = ({navigation}) => {
+  const [email, setEmail] = useState("")
+  const [errorMsg, setErrorMsg] = useState('')
+  const url ="https://prikshaprep.herokuapp.com/api/auth/forgot-password"
+  const handleSubmit = async () => {
+    try {
+     const res = await axios.post(url, {email}, {headers: {"Content-Type": "application/json"}})
+     JSON.stringify(res.data.message)
+     if (res.status === 200) {
+       navigation.navigate("Check Your Inbox", {email})
+     }
+     setErrorMsg(res.data.message) 
+    } catch (error) {
+      setErrorMsg(error.response.data.message)
+    }
   }
   
   return (
@@ -14,8 +28,8 @@ const ForgotPwd = () => {
         </View>
       </View>
       <View style={styles.bottom}>
-        <Text style={styles.txt}>Enter your registered email address to receive a password reset link</Text>
-        <TextInput style={styles.input} placeholder="Enter your Email" placeholderTextColor="#2A454E" />
+        {errorMsg ? <Text style={styles.errMsg}>{errorMsg}</Text> : <Text style={styles.txt}>Enter your registered email address to receive a password reset link</Text>}
+        <TextInput onChangeText={value => setEmail(value)} style={styles.input} placeholder="Enter your Email" placeholderTextColor="#2A454E" />
         <View style={styles.btn}>
           <Button title="Submit" onPress={handleSubmit} bgColor="#2A454E" txtColor="white" />
         </View>
@@ -69,6 +83,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
     color: "#2A454E",
     lineHeight: 30
+  },
+  errMsg: {
+    color: "red",
+    marginVertical: 8,
+    textAlign: "center",
+    marginHorizontal: 30,
   }
 })
 

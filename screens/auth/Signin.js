@@ -1,14 +1,32 @@
 import  {View, Platform, KeyboardAvoidingView, StyleSheet, Text, TextInput, Image} from "react-native"
 import Button from "../../components/Button.js"
 import TxtBtn from "../../components/txtBtn.js"
+import axios from "axios"
+import {useState} from "react"
 
 const Signin = ({navigation}) => {
-  const handleLogIn = () => {
-    console.log(5)
+  const [user, setUser] = useState("")
+  const [password, setPassword] = useState("")
+  const [errorMsg, setErrorMsg] = useState('')
+  const url = "https://prikshaprep.herokuapp.com/api/auth/signin"
+  
+  const handleLogIn = async () => {
+    try {
+      const res = await axios.post(url, {email: user, password}, {headers: {"Content-Type": "application/json"}})
+      JSON.stringify(res.data.message)
+      if (res.data.status === "success") { 
+        navigation.navigate("Home")
+      }
+      setErrorMsg(res.data.message)
+    } catch (error) {
+      setErrorMsg(error.response.data.message)
+    }
   }
+  
   const handleForgotPwd = () => {
-    navigation.navigate("Check Your Inbox")
+    navigation.navigate("Forgot Password")
   }
+  
   const handleSignup = () => {
     navigation.navigate("Signup")
   }
@@ -21,8 +39,9 @@ const Signin = ({navigation}) => {
         </View>
       </View>
       <View style={styles.bottom}>
-        <TextInput style={styles.input} placeholder="Email or phone number with + and country code" placeholderTextColor="#5549AB" />
-        <TextInput style={styles.input} placeholder="Enter your password here" placeholderTextColor="#5549AB" />
+        {errorMsg && <Text style={styles.errMsg}>{errorMsg}</Text>}
+        <TextInput onChangeText={value => setUser(value)} style={styles.input} placeholder="Email or phone number with + and country code" placeholderTextColor="#5549AB" />
+        <TextInput onChangeText={value => setPassword(value)} style={styles.input} placeholder="Enter your password here" placeholderTextColor="#5549AB" />
         <View style={styles.loginBtn}>
         <Button title="Log In" onPress={handleLogIn} bgColor="#5549AB" txtColor="white" />
         <View style={styles.otherBtns}>
@@ -54,7 +73,6 @@ const styles = StyleSheet.create({
   },
   bottom: {
     flex: 1,
-  //  justifyContent: "center",
     alignItems: "center"
   },
   input: {
@@ -72,6 +90,12 @@ const styles = StyleSheet.create({
     marginVertical: 9,
     alignItems: "center",
     width: "100%"
+  },
+  errMsg: {
+    color: "red",
+    marginVertical: 8,
+    textAlign: "center",
+    marginHorizontal: 30,
   }
 })
 
