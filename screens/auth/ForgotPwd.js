@@ -39,7 +39,7 @@ const ForgotPwd = ({navigation}) => {
       </View>
       <View style={styles.bottom}>
         {errorMsg ? <Text style={styles.errMsg}>{errorMsg}</Text> : <Text style={styles.txt}>Enter your registered email address to receive a password reset link</Text>}
-        <TextInput onChangeText={value => setEmail(value)} style={styles.input} placeholder="Enter your Email" placeholderTextColor="#2A454E" />
+        <TextInput value={email} onChangeText={value => setEmail(value)} style={styles.input} placeholder="Enter your Email" placeholderTextColor="#2A454E" />
         <View style={styles.btn}>
           <Button title={loading ? <Loader color="#fff" /> : "Submit"} onPress={handleSubmit} bgColor="#2A454E" txtColor="white" />
         </View>

@@ -50,8 +50,8 @@ const Signin = ({navigation}) => {
       </View>
       <View style={styles.bottom}>
         {errorMsg && <Text style={styles.errMsg}>{errorMsg}</Text>}
-        <TextInput onChangeText={value => setUser(value)} style={styles.input} placeholder="Email or phone number with + and country code" placeholderTextColor="#5549AB" />
-        <TextInput secureTextEntry={true} onChangeText={value => setPassword(value)} style={styles.input} placeholder="Enter your password here" placeholderTextColor="#5549AB" />
+        <TextInput value={user} onChangeText={value => setUser(value)} style={styles.input} placeholder="Email or phone number with + and country code" placeholderTextColor="#5549AB" />
+        <TextInput value={password} secureTextEntry={true} onChangeText={value => setPassword(value)} style={styles.input} placeholder="Enter your password here" placeholderTextColor="#5549AB" />
         <View style={styles.loginBtn}>
         <Button title={loading ? <Loader color="white" /> : "Next"} onPress={handleLogIn} bgColor="#5549AB" txtColor="white" />
         <View style={styles.otherBtns}>

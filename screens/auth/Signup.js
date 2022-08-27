@@ -47,10 +47,10 @@ const Signup = ({navigation}) => {
       </View>
       <View style={styles.bottom}>
         {errorMsg && <Text style={styles.errMsg}>{errorMsg}</Text>}
-        <TextInput onChangeText={value => setEmail(value)} style={styles.input} placeholder="Email" placeholderTextColor="#26DEC0" />
-        <TextInput onChangeText={value => setNumber(value)} style={styles.input} placeholder="Phone No with + and country code" placeholderTextColor="#26DEC0" />
-        <TextInput secureTextEntry={true} onChangeText={value => setPassword(value)} style={styles.input} placeholder="Password" placeholderTextColor="#26DEC0" />
-        <TextInput secureTextEntry={true} onChangeText={value => setConfirmPassword(value)} style={styles.input} placeholder="Confirm Password" placeholderTextColor="#26DEC0" />
+        <TextInput value={email} onChangeText={value => setEmail(value)} style={styles.input} placeholder="Email" placeholderTextColor="#26DEC0" />
+        <TextInput value={number} onChangeText={value => setNumber(value)} style={styles.input} placeholder="Phone No with + and country code" placeholderTextColor="#26DEC0" />
+        <TextInput value={password} secureTextEntry={true} onChangeText={value => setPassword(value)} style={styles.input} placeholder="Password" placeholderTextColor="#26DEC0" />
+        <TextInput value={confirmPassword} secureTextEntry={true} onChangeText={value => setConfirmPassword(value)} style={styles.input} placeholder="Confirm Password" placeholderTextColor="#26DEC0" />
         <View style={styles.btn}>
           <Button title={loading ? <Loader color="#26DEC0" /> : "Next"} onPress={handleSignUp} bgColor="#35474F" txtColor="white" />
         </View>

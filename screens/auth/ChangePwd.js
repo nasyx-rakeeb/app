@@ -43,9 +43,9 @@ const ChangePwd = () => {
       </View>
       <View style={styles.bottom}>
         {errorMsg && <Text style={styles.errMsg}>{errorMsg}</Text>}
-        <TextInput secureTextEntry={true} onChangeText={value => setCurrentPassword(value)} style={styles.input} placeholder="Old Password" placeholderTextColor="#E5322B" />
-        <TextInput secureTextEntry={true} onChangeText={value => setNewPassword(value)} style={styles.input} placeholder="New Password" placeholderTextColor="#E5322B" />
-        <TextInput secureTextEntry={true} onChangeText={value => setConfirmNewPassword(value)} style={styles.input} placeholder="Confirm New Password" placeholderTextColor="#E5322B" />
+        <TextInput value={currentPassword} secureTextEntry={true} onChangeText={value => setCurrentPassword(value)} style={styles.input} placeholder="Old Password" placeholderTextColor="#E5322B" />
+        <TextInput value={newPassword} secureTextEntry={true} onChangeText={value => setNewPassword(value)} style={styles.input} placeholder="New Password" placeholderTextColor="#E5322B" />
+        <TextInput value={confirmNewPassword} secureTextEntry={true} onChangeText={value => setConfirmNewPassword(value)} style={styles.input} placeholder="Confirm New Password" placeholderTextColor="#E5322B" />
         <View style={styles.btn}>
           <Button title={loading ? <Loader color="white" /> : "Change"} onPress={handleChange} bgColor="#675EB0" txtColor="white" />
         </View>

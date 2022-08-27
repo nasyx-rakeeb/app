@@ -38,7 +38,7 @@ const VerifyPhone = ({route, navigation}) => {
       </View>
       <View style={styles.bottom}> 
         {errorMsg ? <Text style={styles.errMsg}>{errorMsg}</Text> : <Text style={styles.txt}>An OTP has been sent to your phone number, please check your inbox</Text>}
-        <TextInput onChangeText={value => setOtp(value)} keyboardType="numeric" style={styles.input} placeholder="Enter OTP here" placeholderTextColor="#D268CC" />
+        <TextInput value={otp} onChangeText={value => setOtp(value)} keyboardType="numeric" style={styles.input} placeholder="Enter OTP here" placeholderTextColor="#D268CC" />
         <View style={styles.btn}>
           <Button title={loading ? <Loader color="#fff" /> : "Verify"} onPress={handleVerify} bgColor="#2A454E" txtColor="white" />
         </View>
